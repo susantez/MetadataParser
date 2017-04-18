@@ -6,10 +6,7 @@ import java.util.List;
 /**
  * Created by serkan.susantez on 4/12/2017.
  */
-public class Document {
-    private String name;
-    private String namespace;
-    private String guid;
+public class Document extends BasicObject{
     private String lastUpdate;
     private String label;
     private String dbSchema;
@@ -22,30 +19,6 @@ public class Document {
         leafCollection = new ArrayList<>();
         formCollection = new ArrayList<>();
         actionCollection = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
     }
 
     public String getLastUpdate() {

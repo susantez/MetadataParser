@@ -542,7 +542,7 @@ public class MetadataReader {
                 } else if (const_name.equals(elementName)) {
                     script.setName(readCharacters(reader));
                 } else if (const_namespace.equals(elementName)) {
-                    script.setNamespace(readCharacters(reader));
+                    script.setNameSpace(readCharacters(reader));
                 }
             } else if (eventType == XMLStreamReader.END_ELEMENT &&
                     ElementType.SCRIPT.getName().equals(reader.getLocalName())) {
@@ -576,7 +576,7 @@ public class MetadataReader {
                 if (const_name.equals(elementName)) {
                     doc.setName(readCharacters(reader));
                 } else if (const_namespace.equals(elementName)) {
-                    doc.setNamespace(readCharacters(reader));
+                    doc.setNameSpace(readCharacters(reader));
                 } else if (const_formCollection.equals(elementName)) {
                     doc.setFormCollection(readDocumentForms(reader));
                 } else if (const_actions.equals(elementName)) {

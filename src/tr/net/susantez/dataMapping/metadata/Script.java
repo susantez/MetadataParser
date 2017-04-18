@@ -4,21 +4,9 @@ package tr.net.susantez.dataMapping.metadata;
  * Created by serkan.susantez on 4/11/2017.
  * Represents the mdScript item for metadata objects
  */
-public class Script {
-    private String name;
-    private String namespace;
+public class Script extends BasicObject{
     private String mdScript;
     private String params;
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
 
     public void setMdScript(String mdScript)
     {
@@ -44,18 +32,5 @@ public class Script {
     public String getParams()
     {
         return this.params;
-    }
-
-    public String toString()
-    {
-        return this.name;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
     }
 }

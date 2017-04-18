@@ -4,31 +4,13 @@ package tr.net.susantez.dataMapping.metadata;
  * Created by serkan.susantez on 4/12/2017.
  * Metadata object which has namespace definitions.
  */
-public class NameSpace {
-    private String name;
-    private String guid;
+public class NameSpace extends BasicObject{
     private String lastUpdate;
     private String label;
     private String targetNameSpace;
     private String qualified;
     private String baseline;
     private String highlight;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
 
     public String getLastUpdate() {
         return lastUpdate;
