@@ -18,7 +18,7 @@ public class Script extends BasicObject{
         if ("".equals (this.mdScript)) {
             return null;
         }
-        String function = "function " + this.name + "(" + this.params + ") {\n";
+        String function = "function " + this.getName() + "(" + this.params + ") {\n";
         function = function + this.mdScript;
         function = function + "\n}";
         return function;
