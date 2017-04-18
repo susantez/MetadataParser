@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MetadataParser">
+    <output-path>$PROJECT_DIR$/out/artifacts/MetadataParser</output-path>
+    <root id="archive" name="MetadataParser.jar">
+      <element id="module-output" name="CWGRU-MetadataParser" />
+    </root>
+  </artifact>
+</component>
