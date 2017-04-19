@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class Data {
     private List<BasicObject> dataTypeDictionary;
-    private List<BasicObject> elementTypeDictionary;
+    private List<Element> elementDictionary;
 
     public Data() {
         dataTypeDictionary = new ArrayList<>();
-        elementTypeDictionary = new ArrayList<>();
+        elementDictionary = new ArrayList<>();
     }
 
     public List<BasicObject> getDataTypeDictionary() {
@@ -24,11 +24,11 @@ public class Data {
         this.dataTypeDictionary = dataTypeDictionary;
     }
 
-    public List<BasicObject> getElementTypeDictionary() {
-        return elementTypeDictionary;
+    public List<Element> getElementDictionary() {
+        return elementDictionary;
     }
 
-    public void setElementTypeDictionary(List<BasicObject> elementTypeDictionary) {
-        this.elementTypeDictionary = elementTypeDictionary;
+    public void setElementDictionary(List<Element> elementDictionary) {
+        this.elementDictionary = elementDictionary;
     }
 }

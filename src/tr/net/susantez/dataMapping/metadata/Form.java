@@ -8,10 +8,12 @@ import java.util.List;
  * Represents the form item for metadata objects
  */
 public class Form extends BasicObject {
+    private List<String> finders;
     private List<Action> actions;
 
     public Form() {
         actions = new ArrayList<>();
+        finders = new ArrayList<>();
     }
 
     public List<Action> getActions() {
@@ -20,5 +22,13 @@ public class Form extends BasicObject {
 
     public void setActions(List<Action> actions) {
         this.actions = actions;
+    }
+
+    public List<String> getFinders() {
+        return finders;
+    }
+
+    public void setFinder(List<String> finders) {
+        this.finders = finders;
     }
 }

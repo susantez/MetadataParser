@@ -11,6 +11,9 @@ public class Document extends BasicObject{
     private String label;
     private String dbSchema;
     private String generatedKey;
+    private String baseObject;
+    private boolean isExtension;
+    private String menu;
     private List<Leaf> leafCollection;
     private List<Form> formCollection;
     private List<Action> actionCollection;
@@ -19,6 +22,7 @@ public class Document extends BasicObject{
         leafCollection = new ArrayList<>();
         formCollection = new ArrayList<>();
         actionCollection = new ArrayList<>();
+        isExtension = false;
     }
 
     public String getLastUpdate() {
@@ -75,5 +79,29 @@ public class Document extends BasicObject{
 
     public void setLeafCollection(List<Leaf> leafCollection) {
         this.leafCollection = leafCollection;
+    }
+
+    public boolean isExtension() {
+        return isExtension;
+    }
+
+    public void setExtension(boolean extension) {
+        isExtension = extension;
+    }
+
+    public String getBaseObject() {
+        return baseObject;
+    }
+
+    public void setBaseObject(String baseObject) {
+        this.baseObject = baseObject;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 }

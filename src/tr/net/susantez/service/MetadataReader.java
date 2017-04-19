@@ -63,8 +63,50 @@ public class MetadataReader {
                 readFinderDictionary(reader);
             } else if (ElementType.MENUDICTIONARY.getName().equals(elementName)) {
                 readMenuDictionary(reader);
+            } else if (ElementType.BINDINGDICTIONARY.getName().equals(elementName)) {
+                readBindngDictionary(reader);
             }
         }
+    }
+
+    private void readBindngDictionary(XMLStreamReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            if (eventType == XMLStreamConstants.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (ElementType.BINDING.getName().equals(elementName)) {
+                    md.getBindingDictionary().add(readBinding(reader));
+                }
+            } else if (eventType == XMLStreamConstants.END_ELEMENT &&
+                    ElementType.BINDINGDICTIONARY.getName().equals(reader.getLocalName())) {
+                return;
+            }
+        }
+    }
+
+    private Binding readBinding(XMLStreamReader reader) throws XMLStreamException {
+        Binding binding = new Binding();
+        while(reader.hasNext()) {
+            int eventType = reader.next();
+            if (eventType == XMLStreamConstants.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (const_name.equals(elementName)) {
+                    binding.setName(readCharacters(reader));
+                } else if(const_guid.equals(elementName)) {
+                    binding.setGuid(readCharacters(reader));
+                } else if(const_namespace.equals(elementName)) {
+                    binding.setNameSpace(readCharacters(reader));
+                } else if(const_script.equals(elementName)) {
+                    binding.setScript(readCharacters(reader));
+                } else if(const_interface.equals(elementName)) {
+                    binding.setInterfaceObj(readCharacters(reader));
+                }
+            } else if (eventType == XMLStreamReader.END_ELEMENT &&
+                    ElementType.BINDING.getName().equals(reader.getLocalName())) {
+                return binding;
+            }
+        }
+        throw new XMLStreamException(EXCEPTION_EOF);
     }
 
     private void readMenuDictionary(XMLStreamReader reader) throws XMLStreamException {
@@ -89,14 +131,16 @@ public class MetadataReader {
             int eventType = reader.next();
             if (eventType == XMLStreamConstants.START_ELEMENT) {
                 String elementName = reader.getLocalName();
-                if (const_name.equals(elementName) && menu.getName() == null) {
+                if (const_name.equals(elementName)) {
                     menu.setName(readCharacters(reader));
-                } else if(const_guid.equals(elementName) && menu.getGuid() == null) {
+                } else if(const_guid.equals(elementName)) {
                     menu.setGuid(readCharacters(reader));
-                } else if(const_namespace.equals(elementName) && menu.getNameSpace() == null) {
+                } else if(const_namespace.equals(elementName)) {
                     menu.setNameSpace(readCharacters(reader));
                 } else if (const_actions.equals(elementName)) {
                     readDocumentActions(menu.getActions(), reader);
+                } else if (const_worklist.equals(elementName)) {
+                    menu.getWorklist().add(readCharacters(reader));
                 } else if (ElementType.MENU.getName().equals(elementName)){
                     depth++;
                 }
@@ -130,7 +174,7 @@ public class MetadataReader {
             int eventType = reader.next();
             if (eventType == XMLStreamConstants.START_ELEMENT) {
                 String elementName = reader.getLocalName();
-                if (const_name.equals(elementName) && finder.getName() == null) {
+                if (const_name.equals(elementName)) {
                     finder.setName(readCharacters(reader));
                 } else if(const_guid.equals(elementName)) {
                     finder.setGuid(readCharacters(reader));
@@ -140,6 +184,8 @@ public class MetadataReader {
                     finder.setInput(readCharacters(reader));
                 } else if(const_output.equals(elementName)) {
                     finder.setOutput(readCharacters(reader));
+                } else if(const_menu.equals(elementName)) {
+                    finder.setMenu(readCharacters(reader));
                 } else if (const_actions.equals(elementName)) {
                     readDocumentActions(finder.getActions(), reader);
                 }
@@ -453,7 +499,7 @@ public class MetadataReader {
                 if (ElementType.DATATYPEDICTIONARY.getName().equals(elementName)) {
                     md.getDataDictionary().setDataTypeDictionary(readDataTypes(reader));
                 } else if (ElementType.ELEMENTTYPEDICTIONARY.getName().equals(elementName)) {
-                    md.getDataDictionary().setElementTypeDictionary(readElementTypes(reader));
+                    md.getDataDictionary().setElementDictionary(readElementTypes(reader));
                 }
             } else if (eventType == XMLStreamConstants.END_ELEMENT &&
                     ElementType.DATADEFINITIONDICTIONARY.getName().equals(reader.getLocalName())) {
@@ -479,18 +525,41 @@ public class MetadataReader {
         throw new XMLStreamException(EXCEPTION_EOF);
     }
 
-    private List<BasicObject> readElementTypes(XMLStreamReader reader) throws XMLStreamException {
-        List<BasicObject> elementTypes = new ArrayList<>();
+    private List<Element> readElementTypes(XMLStreamReader reader) throws XMLStreamException {
+        List<Element> elementTypes = new ArrayList<>();
         while (reader.hasNext()) {
             int eventType = reader.next();
             if (eventType == XMLStreamConstants.START_ELEMENT) {
                 String elementName = reader.getLocalName();
                 if (ElementType.ELEMENTTYPE.getName().equals(elementName)) {
-                    elementTypes.add(readBasicObject(reader, ElementType.ELEMENTTYPE.getName()));
+                    elementTypes.add(readElement(reader));
                 }
             } else if (eventType == XMLStreamConstants.END_ELEMENT &&
                     ElementType.ELEMENTTYPEDICTIONARY.getName().equals(reader.getLocalName())) {
                 return elementTypes;
+            }
+        }
+        throw new XMLStreamException(EXCEPTION_EOF);
+    }
+
+    private Element readElement(XMLStreamReader reader) throws XMLStreamException {
+        Element element = new Element();
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            if (eventType == XMLStreamConstants.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (const_name.equals(elementName)) {
+                    element.setName(readCharacters(reader));
+                } else if (const_namespace.equals(elementName)) {
+                    element.setNameSpace(readCharacters(reader));
+                } else if (const_guid.equals(elementName)) {
+                    element.setGuid(readCharacters(reader));
+                } else if (const_reference.equals(elementName)) {
+                    element.setFinder(readCharacters(reader));
+                }
+            } else if (eventType == XMLStreamConstants.END_ELEMENT
+                    && ElementType.ELEMENTTYPE.getName().equals(reader.getLocalName())) {
+                return element;
             }
         }
         throw new XMLStreamException(EXCEPTION_EOF);
@@ -541,6 +610,8 @@ public class MetadataReader {
                     script.setMdScript(readCharacters(reader));
                 } else if (const_name.equals(elementName)) {
                     script.setName(readCharacters(reader));
+                } else if (const_guid.equals(elementName)) {
+                    script.setGuid(readCharacters(reader));
                 } else if (const_namespace.equals(elementName)) {
                     script.setNameSpace(readCharacters(reader));
                 }
@@ -575,14 +646,21 @@ public class MetadataReader {
                 String elementName = reader.getLocalName();
                 if (const_name.equals(elementName)) {
                     doc.setName(readCharacters(reader));
+                } else if (const_guid.equals(elementName)) {
+                    doc.setGuid(readCharacters(reader));
                 } else if (const_namespace.equals(elementName)) {
                     doc.setNameSpace(readCharacters(reader));
+                } else if (const_menu.equals(elementName)) {
+                    doc.setMenu(readCharacters(reader));
                 } else if (const_formCollection.equals(elementName)) {
-                    doc.setFormCollection(readDocumentForms(reader));
+                    doc.setFormCollection(readDocumentForms(reader, doc.getActionCollection()));
                 } else if (const_actions.equals(elementName)) {
-                    doc.setActionCollection(readDocumentActions(null, reader));
+                    doc.setActionCollection(readDocumentActions(doc.getActionCollection(), reader));
                 } else if (const_leaf.equals(elementName)) {
                     doc.getLeafCollection().add(readLeaf(reader));
+                } else if (const_baseObject.equals(elementName)) {
+                    doc.setExtension(true);
+                    doc.setBaseObject(readCharacters(reader));
                 }
             } else if (eventType == XMLStreamConstants.END_ELEMENT &&
                     ElementType.DOCUMENT.getName().equals(reader.getLocalName())) {
@@ -612,7 +690,7 @@ public class MetadataReader {
         throw new XMLStreamException(EXCEPTION_EOF);
     }
 
-    private List<Form> readDocumentForms(XMLStreamReader reader) throws  XMLStreamException {
+    private List<Form> readDocumentForms(XMLStreamReader reader, List<Action> actions) throws  XMLStreamException {
         List<Form> forms = new ArrayList<>();
         while(reader.hasNext()) {
             int eventType = reader.next();
@@ -620,6 +698,8 @@ public class MetadataReader {
                 String elementName = reader.getLocalName();
                 if (const_form.equals(elementName)) {
                     forms.add(readForm(reader));
+                } else if (const_actions.equals(elementName)) {
+                    readDocumentActions(actions, reader);
                 }
             } else if (eventType == XMLStreamReader.END_ELEMENT &&
                     const_formCollection.equals(reader.getLocalName())) {
@@ -639,8 +719,9 @@ public class MetadataReader {
                     form.setName(readCharacters(reader));
                 } else if (const_actions.equals(elementName)) {
                     readDocumentActions(form.getActions(), reader);
+                } else if (const_finder.equals(elementName)) {
+                    form.getFinders().add(readCharacters(reader));
                 }
-
             } else if (eventType == XMLStreamReader.END_ELEMENT &&
                     const_form.equals(reader.getLocalName())) {
                 return form;

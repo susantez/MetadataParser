@@ -22,6 +22,7 @@ public class Metadata {
     private List<Order> orderDictionary;
     private List<Finder> finderDictionary;
     private List<Menu> menuDictionary;
+    private List<Binding> bindingDictionary;
     private Data dataDictionary;
 
 
@@ -37,6 +38,7 @@ public class Metadata {
         orderDictionary = new ArrayList<>();
         finderDictionary = new ArrayList<>();
         menuDictionary = new ArrayList<>();
+        bindingDictionary = new ArrayList<>();
         dataDictionary = new Data();
     }
 
@@ -134,5 +136,13 @@ public class Metadata {
 
     public void setMenuDictionary(List<Menu> menuDictionary) {
         this.menuDictionary = menuDictionary;
+    }
+
+    public List<Binding> getBindingDictionary() {
+        return bindingDictionary;
+    }
+
+    public void setBindingDictionary(List<Binding> bindingDictionary) {
+        this.bindingDictionary = bindingDictionary;
     }
 }

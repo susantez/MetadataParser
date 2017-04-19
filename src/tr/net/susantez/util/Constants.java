@@ -24,6 +24,7 @@ public class Constants {
         PROCESSDICTIONARY("ProcessDictionary"), PROCESS("Process"),
         ORDERDICTIONARY("OrderDictionary"), ORDER("Order"),
         FINDERDICTIONARY("FinderDictionary"), FINDER("Finder"),
+        BINDINGDICTIONARY("BindingDictionary"), BINDING("Binding"),
         MENUDICTIONARY("UserInterfaceDictionary"), MENU("Menu");
 
         private final String name;
@@ -60,6 +61,12 @@ public class Constants {
     public static final String const_input = "input";
     public static final String const_output = "output";
     public static final String const_orderItem = "orderItem";
+    public static final String const_baseObject = "baseObject";
+    public static final String const_finder = "finder";
+    public static final String const_menu = "menu";
+    public static final String const_reference = "reference";
+    public static final String const_worklist = "worklist";
+    public static final String const_interface = "interface";
 
     public static final String EXCEPTION_EOF = "Premature end of file";
 }

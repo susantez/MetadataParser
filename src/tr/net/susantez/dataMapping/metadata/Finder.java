@@ -9,6 +9,7 @@ import java.util.List;
 public class Finder extends BasicObject{
     private String input;
     private String output;
+    private String menu;
     private List<Action> actions;
 
     public Finder () {
@@ -37,5 +38,13 @@ public class Finder extends BasicObject{
 
     public void setActions(List<Action> actions) {
         this.actions = actions;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
     }
 }

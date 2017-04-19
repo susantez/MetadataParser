@@ -13,7 +13,9 @@ public class BasicObject {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (this.name == null) {
+            this.name = name;
+        }
     }
 
     public String getGuid() {
@@ -21,7 +23,9 @@ public class BasicObject {
     }
 
     public void setGuid(String guid) {
-        this.guid = guid;
+        if (this.guid == null) {
+            this.guid = guid;
+        }
     }
 
     public String getNameSpace() {
@@ -29,6 +33,8 @@ public class BasicObject {
     }
 
     public void setNameSpace(String nameSpace) {
-        this.nameSpace = nameSpace;
+        if (this.nameSpace == null) {
+            this.nameSpace = nameSpace;
+        }
     }
 }
