@@ -1,6 +1,5 @@
 package tr.net.susantez;
 
-import tr.net.susantez.dataMapping.Metadata;
 import tr.net.susantez.service.MetadataReader;
 
 import javax.xml.stream.FactoryConfigurationError;

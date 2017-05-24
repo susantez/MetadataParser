@@ -1,4 +1,4 @@
-package tr.net.susantez.dataMapping.metadata;
+package tr.net.susantez.datamapping.metadata;
 
 import java.util.ArrayList;
 import java.util.List;

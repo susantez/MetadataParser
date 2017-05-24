@@ -1,8 +1,8 @@
 package tr.net.susantez.service;
 
-import tr.net.susantez.dataMapping.*;
-import tr.net.susantez.dataMapping.metadata.*;
-import tr.net.susantez.dataMapping.metadata.Process;
+import tr.net.susantez.datamapping.*;
+import tr.net.susantez.datamapping.metadata.*;
+import tr.net.susantez.datamapping.metadata.Process;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -614,10 +614,33 @@ public class MetadataReader {
                     script.setGuid(readCharacters(reader));
                 } else if (const_namespace.equals(elementName)) {
                     script.setNameSpace(readCharacters(reader));
+                } else if (const_parameter.equals(elementName)) {
+                    script.setParams(readParameter(reader,script.getParams()));
                 }
             } else if (eventType == XMLStreamReader.END_ELEMENT &&
                     ElementType.SCRIPT.getName().equals(reader.getLocalName())) {
                 return script;
+            }
+        }
+        throw new XMLStreamException(EXCEPTION_EOF);
+    }
+
+    private String readParameter(XMLStreamReader reader, String param) throws XMLStreamException {
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            if (eventType == XMLStreamConstants.START_ELEMENT) {
+                String elementName = reader.getLocalName();
+                if (const_name.equals(elementName)) {
+                    String parameter = readCharacters(reader);
+                    if (param == null || param.equals("")) {
+                        param = parameter;
+                    } else {
+                        param = "," + parameter;
+                    }
+                }
+            } else if (eventType == XMLStreamReader.END_ELEMENT &&
+                    const_parameter.equals(reader.getLocalName())) {
+                return param;
             }
         }
         throw new XMLStreamException(EXCEPTION_EOF);
@@ -761,7 +784,7 @@ public class MetadataReader {
                 String elementName = reader.getLocalName();
                 if (const_name.equals(elementName)) {
                     action.setName(readCharacters(reader));
-                    action.setScripts(readActionScripts(reader));
+                    action.setScripts(readActionScripts(reader, action.getName()));
                     return action;
                 }
 
@@ -773,7 +796,7 @@ public class MetadataReader {
         throw new XMLStreamException(EXCEPTION_EOF);
     }
 
-    private List<Script> readActionScripts(XMLStreamReader reader) throws XMLStreamException {
+    private List<Script> readActionScripts(XMLStreamReader reader, String actionName) throws XMLStreamException {
         List<Script> scripts = new ArrayList<>();
         int depth = 1;
         while(reader.hasNext()) {
@@ -782,12 +805,15 @@ public class MetadataReader {
                 String elementName = reader.getLocalName();
                 if (const_script.equals(elementName)) {
                     Script script = new Script();
+                    script.setName(actionName);
                     script.setMdScript(readCharacters(reader));
                     scripts.add(script);
                 } else if (const_action.equals(elementName)) {
                     depth++;
+                } else if (const_parameter.equals(elementName)) {
+                    Script script = scripts.get(scripts.size()-1);
+                    script.setParams(readParameter(reader,script.getParams()));
                 }
-
             } else if (eventType == XMLStreamReader.END_ELEMENT) {
                 String endingElement = reader.getLocalName();
                 if (const_action.equals(endingElement)) {

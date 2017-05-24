@@ -1,4 +1,4 @@
-package tr.net.susantez.dataMapping.metadata;
+package tr.net.susantez.datamapping.metadata;
 
 /**
  * Created by serkan.susantez on 4/18/2017.

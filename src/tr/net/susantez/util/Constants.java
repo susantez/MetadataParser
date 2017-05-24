@@ -5,10 +5,6 @@ package tr.net.susantez.util;
  */
 public class Constants {
 
-    private void Constans() {
-        throw new IllegalAccessError("Constants class");
-    }
-
     public enum ElementType
     {
         PERMISSIONDICTIONARY("PermissionDictionary"),  PERMISSION("Permission"),
@@ -67,6 +63,7 @@ public class Constants {
     public static final String const_reference = "reference";
     public static final String const_worklist = "worklist";
     public static final String const_interface = "interface";
+    public static final String const_parameter = "parameter";
 
     public static final String EXCEPTION_EOF = "Premature end of file";
 }
